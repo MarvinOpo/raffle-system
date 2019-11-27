@@ -1,0 +1,18 @@
+html {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  background:#d3d3d3;
+}
+
+.mxw-700p {
+  max-width: 700px !important;
+}
+
+.mnh-500p {
+  min-height: 500px !important;
+}

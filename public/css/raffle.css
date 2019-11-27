@@ -1,0 +1,84 @@
+body {
+    background-image: url('../images/background-image.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+.card label {
+    font-size: 200px;
+}
+
+.card {
+    margin: 0 10px;
+}
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+#draw_btn, #reveal_btn {
+    font-size: 50px;
+    width: 170px;
+}
+
+.modal-body {
+    background-image: url('../images/raffle-winner.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.ml-400p {
+    margin-left: 400px;
+}
+
+.spin {
+    -webkit-animation: anim 0.1s infinite linear;
+    animation: anim 0.1s infinite linear;
+}
+
+.winner-div {
+    background-image: url('../images/confetti.gif');
+}
+
+.winner-name {
+    font-size: 150px;
+    font-weight: bold;
+    color: #d4af37;
+    -webkit-text-stroke: 7px #b58d3d;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes anim {
+    from {
+        -webkit-transform: rotateX(0deg);
+    }
+    to {
+        -webkit-transform: rotateX(360deg);
+    }
+}
+
+@keyframes anim {
+    from {
+        transform: rotateX(0deg);
+    }
+    to {
+        transform: rotateX(360deg);
+    }
+}

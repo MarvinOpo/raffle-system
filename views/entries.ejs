@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="css/styles.css" rel="stylesheet" media="all">
+    <link href="css/toastr.min.css" rel="stylesheet" media="all">
+    <link href="css/entries.css" rel="stylesheet" media="all">
+</head>
+
+<body>
+    <div class="container d-flex align-items-center">
+        <div class="card m-auto">
+            <div class="card-header">
+                <h3>Add Entry</h3>
+            </div>
+            <div class="card-body">
+                <input id="file_entries" type="file" class="border border-secondary bg-white w-100"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <button id="upload_btn" class="btn btn-success float-right mt-3">Upload</button>
+                <label id="upload_label" class="float-right mt-3 text-white d-none">Uploading</label>
+            </div>
+        </div>
+
+        <!-- <div class="card w-100 h-100 ml-2">
+
+        </div> -->
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/toastr.min.js"></script>
+
+    <script src="js/xlsx.full.min.js"></script>
+    <script src="js/entries.js"></script>
+</body>
+
+</html>
