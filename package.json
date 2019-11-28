@@ -2,9 +2,7 @@
   "name": "raffle-system",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
+  "bin": "./bin/www",
   "dependencies": {
     "cookie-parser": "^1.4.4",
     "debug": "^2.6.9",
@@ -15,5 +13,13 @@
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "nodemon": "^2.0.0"
+  },
+  "pkg": {
+    "assets": [
+      "./views/*",
+      "./public/js/*",
+      "./public/css/*",
+      "./public/images/*"
+    ]
   }
 }
