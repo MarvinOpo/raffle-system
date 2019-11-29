@@ -1,13 +1,37 @@
+const fs = require('fs-extra');
 const raffleAPI = require('../api/raffleAPI');
 
 exports.insert = async function (req, res, next) {
+    // let result = {};
+
+    // try {
+    //     await raffleAPI.insert(req.body);
+    //     result['status'] = 'success';
+    //     res.send(result);
+    // } catch (err) {
+    //     result['status'] = 'error';
+    //     res.send(result);
+    // }
+
+
     let result = {};
 
     try {
-        await raffleAPI.insert(req.body);
+        await fs.writeJsonSync('C:\\raffle-system\\entries.json', req.body);
         result['status'] = 'success';
         res.send(result);
     } catch (err) {
+        result['status'] = 'error';
+        res.send(result);
+    }
+}
+
+exports.entries = async function (req, res, next) {
+    try {
+        const entries = fs.readJsonSync('C:\\raffle-system\\entries.json')
+        res.send(entries);
+    } catch (err) {
+        let result = {};
         result['status'] = 'error';
         res.send(result);
     }

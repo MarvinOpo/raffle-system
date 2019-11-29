@@ -1,5 +1,6 @@
 let count = 0;
 let raffleWinner;
+let entries;
 
 (function ($) {
     toastr.options = {
@@ -20,7 +21,8 @@ let raffleWinner;
         "hideMethod": "fadeOut"
     };
 
-    getEntryCount();
+    // getEntryCount();
+    getEntries();
 
     $('#draw_btn').click(function () {
         $('.winner-name').addClass('d-none');
@@ -30,58 +32,120 @@ let raffleWinner;
     $('#reveal_btn').click(function () {
         $('#draw_btn').removeClass('d-none');
         $('.winner-name').removeClass('d-none');
-        deleteWinnerData();
+        // deleteWinnerData();
+        updateEntries();
     });
 
     animateText(0);
 })(jQuery);
 
-function drawRaffleWinner() {
-    const rndNum = Math.floor(Math.random() * (count - 1 + 1)) + 1;
-
-    const param = `?offset=` + (rndNum - 1)
-    fetch('/API/entry/get_winner' + param, { method: 'GET' })
+function updateEntries() {
+    fetch('/API/entry/insert', {
+        method: 'POST',
+        body: JSON.stringify(entries),
+        headers: { 'Content-Type': 'application/json' }
+    })
         .then(res => res.json())
         .then(data => {
-            const raffle_id = data[0].raffle_id;
-            if (raffle_id) {
-                const winner = data[0].name;
-                $('.winner-name').text(winner);
-
-                raffleWinner = getSixDigitFormat(raffle_id);
-
-                $('#lever_gif_container').append('<img src="images/draw-raffle.gif" class="w-100 h-100">');
-
-                $('.raffle-container').addClass('ml-400p');
-                $('#draw_btn').addClass('d-none');
-                $('#reveal_btn').addClass('d-none');
-
-                setTimeout(function () {
-                    $('#lever_gif_container').html('');
-                    $('.raffle-container').removeClass('ml-400p');
-                    $('#lever_gif').addClass('d-none');
-
-                    $('#card_digit0').addClass('spin');
-                    $('#card_digit1').addClass('spin');
-                    $('#card_digit2').addClass('spin');
-                    $('#card_digit3').addClass('spin');
-                    $('#card_digit4').addClass('spin');
-                    $('#card_digit5').addClass('spin');
-
-                    $('#label_digit0').addClass('animate');
-                    $('#label_digit1').addClass('animate');
-                    $('#label_digit2').addClass('animate');
-                    $('#label_digit3').addClass('animate');
-                    $('#label_digit4').addClass('animate');
-                    $('#label_digit5').addClass('animate');
-
-                    revealNoAtCard(0, 3000);
-                }, 1700);
-            }
+            
         })
         .catch(err => {
             console.log(err);
         });
+}
+
+function getEntries() {
+    fetch('/API/entry/entries', { method: 'GET' })
+        .then(res => res.json())
+        .then(data => {
+            entries = data;
+            toastr.success(entries.length + " entries available.");
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+function drawRaffleWinner() {
+    const rndNum = Math.floor(Math.random() * entries.length); 
+    
+    const winner = entries[rndNum].Name;
+    $('.winner-name').text(winner);
+
+    raffleWinner = getSixDigitFormat(entries[rndNum].ID);
+    entries.splice(rndNum, 1);
+
+    $('#lever_gif_container').append('<img src="images/draw-raffle.gif" class="w-100 h-100">');
+
+    $('.raffle-container').addClass('ml-400p');
+    $('#draw_btn').addClass('d-none');
+    $('#reveal_btn').addClass('d-none');
+
+    setTimeout(function () {
+        $('#lever_gif_container').html('');
+        $('.raffle-container').removeClass('ml-400p');
+        $('#lever_gif').addClass('d-none');
+
+        $('#card_digit0').addClass('spin');
+        $('#card_digit1').addClass('spin');
+        $('#card_digit2').addClass('spin');
+        $('#card_digit3').addClass('spin');
+        $('#card_digit4').addClass('spin');
+        $('#card_digit5').addClass('spin');
+
+        $('#label_digit0').addClass('animate');
+        $('#label_digit1').addClass('animate');
+        $('#label_digit2').addClass('animate');
+        $('#label_digit3').addClass('animate');
+        $('#label_digit4').addClass('animate');
+        $('#label_digit5').addClass('animate');
+
+        revealNoAtCard(0, 3000);
+    }, 1700);
+
+    // const param = `?offset=` + (rndNum - 1)
+    // fetch('/API/entry/get_winner' + param, { method: 'GET' })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         const raffle_id = data[0].raffle_id;
+    //         if (raffle_id) {
+    //             const winner = data[0].name;
+    //             $('.winner-name').text(winner);
+
+    //             raffleWinner = getSixDigitFormat(raffle_id);
+
+    //             $('#lever_gif_container').append('<img src="images/draw-raffle.gif" class="w-100 h-100">');
+
+    //             $('.raffle-container').addClass('ml-400p');
+    //             $('#draw_btn').addClass('d-none');
+    //             $('#reveal_btn').addClass('d-none');
+
+    //             setTimeout(function () {
+    //                 $('#lever_gif_container').html('');
+    //                 $('.raffle-container').removeClass('ml-400p');
+    //                 $('#lever_gif').addClass('d-none');
+
+    //                 $('#card_digit0').addClass('spin');
+    //                 $('#card_digit1').addClass('spin');
+    //                 $('#card_digit2').addClass('spin');
+    //                 $('#card_digit3').addClass('spin');
+    //                 $('#card_digit4').addClass('spin');
+    //                 $('#card_digit5').addClass('spin');
+
+    //                 $('#label_digit0').addClass('animate');
+    //                 $('#label_digit1').addClass('animate');
+    //                 $('#label_digit2').addClass('animate');
+    //                 $('#label_digit3').addClass('animate');
+    //                 $('#label_digit4').addClass('animate');
+    //                 $('#label_digit5').addClass('animate');
+
+    //                 revealNoAtCard(0, 3000);
+    //             }, 1700);
+    //         }
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
 }
 
 function getEntryCount() {

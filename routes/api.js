@@ -6,6 +6,9 @@ const apiController = require('../controller/apiController');
 /* Insert entry */
 router.post('/entry/insert', apiController.insert);
 
+/* Get entries */
+router.get('/entry/entries', apiController.entries);
+
 /* Get entries count */
 router.get('/entry/count', apiController.count);
 
